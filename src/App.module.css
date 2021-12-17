@@ -11,6 +11,14 @@
   box-shadow: 0 0 10px 2px lightsteelblue;
   background-color: aliceblue;
 }
+.itemDone {
+  position: relative;
+  padding: 12px 60px 12px 60px;
+  margin-bottom: 23px;
+  box-shadow: 0 0 10px 2px lightsteelblue;
+  background-color: aliceblue;
+  text-decoration: line-through;
+}
 .item:nth-child(odd) {
   background: lightgoldenrodyellow;
 }

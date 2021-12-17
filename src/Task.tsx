@@ -9,8 +9,10 @@ const Task: FC<TaskProps> = (props) => {
   const {id, name, done} = props;
   const { editTask, removeTask } = useTodos();
 
+  const itemStyles = done ? styles.itemDone : styles.item;
+
   return (
-    <li key={id} className={styles.item}>
+    <li key={id} className={itemStyles}>
       <span>{name}</span>
       <input type="checkbox" 
         className={styles.completed} 

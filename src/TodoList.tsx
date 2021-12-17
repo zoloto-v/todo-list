@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import styles from './App.module.css';
-import { TaskProps } from './types';
 import { useTodos } from './TodosProvider';
 import Task from './Task';
 
