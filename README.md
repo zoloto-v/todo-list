@@ -1,70 +1,28 @@
-# Getting Started with Create React App
+## `@inject`
+`@inject` внедряет только то хранилище (из представленных на верхнем уровне через Provider), которое будет нужно непосредственно в этом компоненте. 
+Разные части нашего приложения используют разные хранилища, которые мы перечисляем в inject через запятую. Хранилища доступны в компоненте 
+через this.props.yourStoreName.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## `@observer`
+`@observer` производит подписку на изменение данных в хранилищах. Сам механизм подписки скрыт в библиотеке Mobx, мы лишь декларируем, что хотим знать о 
+том, что данные в этих хранилищах изменились. Таким образом, мы избавились от подписок на изменение событий, как это требовалось бы в чистом JS, 
+и от пробрасывания колбэков в родительские компоненты, как если бы мы использовали чистый React. Теперь Mobx отвечает за доставку всех изменений 
+данных прямо в компоненты!
 
-## Available Scripts
+## `autorun`
+`autorun` — используется в том случае, когда нужно запустить действия директивно, помимо реакции на изменение данных хранилища. Например, вызвать метод из 
+подключаемой библиотеки с целью отправить статистику.
 
-In the project directory, you can run:
+## `@observable`
+`@observable` — объект, за изменением полей которого следит Mobx. Если хотя бы одно из полей объекта изменилось, Mobx доставляет его новое значение компоненту, 
+который мы обернули декораторами @observer и @inject (с указанием именно этого хранилища).
 
-### `npm start`
+## `@action`
+`@action` — специальный декоратор для обертывания хендлеров любых событий, которые должны поменять state приложения и/или вызвать сайд-эффекты. В примере выше пользователь вводит 
+значение email, которое мы записываем в поле value observable-объекта params (первое изменение state), а потом валидируем и меняем значения других полей в params.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## `@computed`
+`@computed` — декоратор для функций, которые отслеживают изменения в observable-объектах. Важным преимуществом Mobx является то, что отслеживаются только данные, которые вычисляются непосредственно в этой функции и потом возвращаются в качестве результата. То есть, если в EmailStore.params три перечисленных в блоке @computed return параметра не менялись (value, isCorrect, onceValidated), то @computed не будет производить никаких вычислений. Как видно на этом примере, observable-объекты для @computed могут браться из любого места приложения, в том числе из другого хранилища данных.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## `reaction`
+`reaction` — инструмент для организации сайд-эффектов на основе изменившегося состояния. Он принимает две функции: первая computed, возвращающая новое вычисленное состояние, вторая — функция с эффектами, которые должны последовать вслед за изменением состояния.
