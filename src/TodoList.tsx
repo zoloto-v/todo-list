@@ -1,18 +1,21 @@
 import React, { FC } from 'react';
+import { observer } from 'mobx-react';
 import styles from './App.module.css';
-import { useTodos } from './TodosProvider';
 import Task from './Task';
+import { TaskProps } from './types';
 
-const TodoList: FC = () => {
-  const { todos } = useTodos();
+type TodoListProps = {
+  store: {
+    todos: TaskProps[],
+  },
+};
 
+const TodoList: FC<TodoListProps> = observer(({ store }) => {
   return (
     <ul className={styles.list}>
-      {
-        todos.map(task => <Task {...task} key={task.id} />)
-      }
+      { store.todos.map(task => <Task {...task} key={task.id} />) }
     </ul>
   );
-};
+});
 
 export default TodoList;

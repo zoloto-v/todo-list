@@ -3,9 +3,6 @@ import { TodosContextValue, TodosProviderProps, TaskProps } from './types';
 import { apiData } from './api-data';
 import { v4 } from 'uuid';
 
-/**
- * declare context and hooks for hist using
- */
 const initialContext: TodosContextValue = {
   todos: [],
   addTask: (t) => {},
@@ -16,11 +13,6 @@ const initialContext: TodosContextValue = {
 const TodosContext = createContext(initialContext);
 export const useTodos = () => useContext(TodosContext);
 
-/**
- * 
- * @param children
- * @returns React.Context.Provider component
- */
 const TodosProvider: FC<TodosProviderProps> = ({ children }) => {
   const [todos, setTodos] = useState<TaskProps[]>([]);
 
@@ -52,10 +44,7 @@ const TodosProvider: FC<TodosProviderProps> = ({ children }) => {
     setTodos(editedTodos);
   };
 
-  const removeTask = (id: string) => {
-    const removedTodos = todos.filter(task => task.id !== id);
-    setTodos(removedTodos);
-  };
+  const removeTask = (id: string) => todos.filter(task => task.id !== id);
 
   return (
     <TodosContext.Provider value={{

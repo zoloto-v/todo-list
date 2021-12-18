@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Layout, Header, Section, Footer, Title } from './StyledComponents';
 import TodoList from './TodoList';
 import AddTaskForm from './AddTaskForm';
+import todoStore from './store/TodoStore';
 
 const App: FC = () => {
   return (
@@ -12,7 +13,7 @@ const App: FC = () => {
         </Title>
       </Header>
       <Section>
-        <TodoList />
+        <TodoList store={todoStore} />
         <AddTaskForm />
       </Section>
       <Footer>
